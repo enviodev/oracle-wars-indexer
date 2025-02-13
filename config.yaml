@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=./node_modules/envio/evm.schema.json
+name: envio-indexer
+networks:
+- id: 1
+  start_block: 0
+  contracts:
+  - name: AccessControlledOCR2Aggregator
+    address:
+    - 0x7d4E742018fb52E48b08BE73d041C18B21de6Fb5
+    handler: src/EventHandlers.ts
+    events:
+    - event: AnswerUpdated(int256 indexed current, uint256 indexed roundId, uint256 updatedAt)
+  - name: TransparentUpgradeableProxy
+    address:
+    - 0xd72a6BA4a87DDB33e801b3f1c7750b2d0911fC6C
+    handler: src/EventHandlers.ts
+    events:
+    - event: ValueUpdate(uint256 value, bytes32 dataFeedId, uint256 updatedAt)
+rollback_on_reorg: false

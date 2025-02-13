@@ -1,0 +1,14 @@
+type AccessControlledOCR2Aggregator_AnswerUpdated {
+  id: ID!
+  current: BigInt!
+  roundId: BigInt!
+  updatedAt: BigInt!
+}
+
+type TransparentUpgradeableProxy_ValueUpdate {
+  id: ID!
+  value: BigInt!
+  dataFeedId: String!
+  updatedAt: BigInt!
+}
+
