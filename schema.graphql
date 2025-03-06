@@ -2,13 +2,14 @@ type AccessControlledOCR2Aggregator_AnswerUpdated {
   id: ID!
   current: BigInt!
   roundId: BigInt!
-  updatedAt: BigInt!
+  updatedAt: BigInt! @index
+  nativeTokenUsed: BigInt!
 }
 
 type TransparentUpgradeableProxy_ValueUpdate {
   id: ID!
   value: BigInt!
   dataFeedId: String!
-  updatedAt: BigInt!
+  updatedAt: BigInt! @index
+  nativeTokenUsed: BigInt!
 }
-
