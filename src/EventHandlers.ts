@@ -20,6 +20,8 @@ AccessControlledOCR2Aggregator.AnswerUpdated.handler(
       roundId: event.params.roundId,
       updatedAt: event.params.updatedAt,
       nativeTokenUsed: nativeTokenUsed,
+      feedAddress: event.srcAddress,
+      chainId: event.chainId,
     };
 
     context.AccessControlledOCR2Aggregator_AnswerUpdated.set(entity);

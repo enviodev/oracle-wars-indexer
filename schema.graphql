@@ -4,6 +4,8 @@ type AccessControlledOCR2Aggregator_AnswerUpdated {
   roundId: BigInt!
   updatedAt: BigInt! @index
   nativeTokenUsed: BigInt!
+  feedAddress: String! @index
+  chainId: Int! @index
 }
 
 type TransparentUpgradeableProxy_ValueUpdate {

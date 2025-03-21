@@ -1,21 +1,40 @@
 # yaml-language-server: $schema=./node_modules/envio/evm.schema.json
 name: envio-indexer
+description: Chainlink Feeds Indexer
+
+# Global contract definitions for multi-chain support
+contracts:
+  - name: AccessControlledOCR2Aggregator
+    handler: src/EventHandlers.ts
+    events:
+      - event: AnswerUpdated(int256 indexed current, uint256 indexed roundId, uint256 updatedAt)
+  - name: TransparentUpgradeableProxy
+    handler: src/EventHandlers.ts
+    events:
+      - event: ValueUpdate(uint256 value, bytes32 dataFeedId, uint256 updatedAt)
+
+# Enable unordered multichain mode for parallel processing
+unordered_multichain_mode: true
+
+# Network-specific configurations
 networks:
-  - id: 1
-    start_block: 0
+  - id: 1 # Ethereum Mainnet
+    start_block: 21900000
     contracts:
-      - name: AccessControlledOCR2Aggregator
+      - name: AccessControlledOCR2Aggregator # Reference to global contract definition
         address:
-          - 0x7d4E742018fb52E48b08BE73d041C18B21de6Fb5
-        handler: src/EventHandlers.ts
-        events:
-          - event: AnswerUpdated(int256 indexed current, uint256 indexed roundId, uint256 updatedAt)
-      - name: TransparentUpgradeableProxy
+          - 0x7d4E742018fb52E48b08BE73d041C18B21de6Fb5 # ETH/USD (Mainnet)
+      - name: TransparentUpgradeableProxy # Reference to global contract definition
         address:
-          - 0xd72a6BA4a87DDB33e801b3f1c7750b2d0911fC6C
-        handler: src/EventHandlers.ts
-        events:
-          - event: ValueUpdate(uint256 value, bytes32 dataFeedId, uint256 updatedAt)
+          - 0xd72a6BA4a87DDB33e801b3f1c7750b2d0911fC6C # BTC/USD (Polygon)
+
+  - id: 137 # Polygon Mainnet
+    start_block: 69000000
+    contracts:
+      - name: AccessControlledOCR2Aggregator # Reference to global contract definition
+        address:
+          - 0x014497a2AEF847C7021b17BFF70A68221D22AA63
+
 rollback_on_reorg: false
 
 field_selection:
