@@ -31,7 +31,7 @@ networks:
   - id: 6342
     hypersync_config:
       url: https://megaeth-testnet.hypersync.xyz
-    start_block: 2930000
+    start_block: 8270000
     contracts:
       - name: TransparentUpgradeableProxy
         address:
