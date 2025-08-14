@@ -4,11 +4,11 @@ description: Chainlink Feeds Indexer
 
 # Global contract definitions for multi-chain support
 contracts:
-  - name: AccessControlledOCR2Aggregator
+  - name: ChainlinkProxy
     handler: src/EventHandlers.ts
     events:
       - event: AnswerUpdated(int256 indexed current, uint256 indexed roundId, uint256 updatedAt)
-  - name: TransparentUpgradeableProxy
+  - name: RedstoneProxy
     handler: src/EventHandlers.ts
     events:
       - event: ValueUpdate(uint256 value, bytes32 dataFeedId, uint256 updatedAt)
@@ -19,21 +19,21 @@ unordered_multichain_mode: true
 # Network-specific configurations
 networks:
   - id: 1 # Ethereum Mainnet
-    start_block: 21900000
+    start_block: 23100000
     contracts:
-      - name: AccessControlledOCR2Aggregator # Reference to global contract definition
+      - name: ChainlinkProxy # Reference to global contract definition
         address:
           - 0x7d4E742018fb52E48b08BE73d041C18B21de6Fb5 # ETH/USD (Mainnet)
-      - name: TransparentUpgradeableProxy # Reference to global contract definition
+      - name: RedstoneProxy # Reference to global contract definition
         address:
           - 0xd72a6BA4a87DDB33e801b3f1c7750b2d0911fC6C # BTC/USD (Polygon)
 
-  - id: 137 # Polygon Mainnet
-    start_block: 69000000
-    contracts:
-      - name: AccessControlledOCR2Aggregator # Reference to global contract definition
-        address:
-          - 0x014497a2AEF847C7021b17BFF70A68221D22AA63
+  # - id: 137 # Polygon Mainnet
+  #   start_block: 73000000
+  #   contracts:
+  #     - name: ChainlinkProxy # Reference to global contract definition
+  #       address:
+  #         - 0x014497a2AEF847C7021b17BFF70A68221D22AA63
 
 rollback_on_reorg: false
 

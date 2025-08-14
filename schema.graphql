@@ -1,4 +1,4 @@
-type AccessControlledOCR2Aggregator_AnswerUpdated {
+type ChainlinkProxy_AnswerUpdated {
   id: ID!
   current: BigInt!
   roundId: BigInt!
@@ -8,7 +8,7 @@ type AccessControlledOCR2Aggregator_AnswerUpdated {
   chainId: Int! @index
 }
 
-type TransparentUpgradeableProxy_ValueUpdate {
+type RedstoneProxy_ValueUpdate {
   id: ID!
   value: BigInt!
   dataFeedId: String!

@@ -2,33 +2,31 @@
  * Please refer to https://docs.envio.dev for a thorough guide on all Envio indexer features
  */
 import {
-  AccessControlledOCR2Aggregator,
-  AccessControlledOCR2Aggregator_AnswerUpdated,
-  TransparentUpgradeableProxy,
-  TransparentUpgradeableProxy_ValueUpdate,
+  ChainlinkProxy,
+  ChainlinkProxy_AnswerUpdated,
+  RedstoneProxy,
+  RedstoneProxy_ValueUpdate,
 } from "generated";
 
-AccessControlledOCR2Aggregator.AnswerUpdated.handler(
-  async ({ event, context }) => {
-    // Calculate native token cost (gasUsed × effectiveGasPrice)
-    const nativeTokenUsed =
-      event.transaction.gasUsed * event.transaction.effectiveGasPrice;
+ChainlinkProxy.AnswerUpdated.handler(async ({ event, context }) => {
+  // Calculate native token cost (gasUsed × effectiveGasPrice)
+  const nativeTokenUsed =
+    event.transaction.gasUsed * event.transaction.effectiveGasPrice;
 
-    const entity: AccessControlledOCR2Aggregator_AnswerUpdated = {
-      id: `${event.chainId}_${event.block.number}_${event.logIndex}`,
-      current: event.params.current,
-      roundId: event.params.roundId,
-      updatedAt: event.params.updatedAt,
-      nativeTokenUsed: nativeTokenUsed,
-      feedAddress: event.srcAddress,
-      chainId: event.chainId,
-    };
+  const entity: ChainlinkProxy_AnswerUpdated = {
+    id: `${event.chainId}_${event.block.number}_${event.logIndex}`,
+    current: event.params.current,
+    roundId: event.params.roundId,
+    updatedAt: event.params.updatedAt,
+    nativeTokenUsed: nativeTokenUsed,
+    feedAddress: event.srcAddress,
+    chainId: event.chainId,
+  };
 
-    context.AccessControlledOCR2Aggregator_AnswerUpdated.set(entity);
-  }
-);
+  context.ChainlinkProxy_AnswerUpdated.set(entity);
+});
 
-TransparentUpgradeableProxy.ValueUpdate.handler(async ({ event, context }) => {
+RedstoneProxy.ValueUpdate.handler(async ({ event, context }) => {
   // Only process events with the specified dataFeedId
   if (
     event.params.dataFeedId ===
@@ -38,7 +36,7 @@ TransparentUpgradeableProxy.ValueUpdate.handler(async ({ event, context }) => {
     const nativeTokenUsed =
       event.transaction.gasUsed * event.transaction.effectiveGasPrice;
 
-    const entity: TransparentUpgradeableProxy_ValueUpdate = {
+    const entity: RedstoneProxy_ValueUpdate = {
       id: `${event.chainId}_${event.block.number}_${event.logIndex}`,
       value: event.params.value,
       dataFeedId: event.params.dataFeedId,
@@ -46,6 +44,6 @@ TransparentUpgradeableProxy.ValueUpdate.handler(async ({ event, context }) => {
       nativeTokenUsed: nativeTokenUsed,
     };
 
-    context.TransparentUpgradeableProxy_ValueUpdate.set(entity);
+    context.RedstoneProxy_ValueUpdate.set(entity);
   }
 });
