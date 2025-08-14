@@ -12,6 +12,11 @@ contracts:
     handler: src/EventHandlers.ts
     events:
       - event: ValueUpdate(uint256 value, bytes32 dataFeedId, uint256 updatedAt)
+  - name: Chronicle_ETH_USD_3
+    handler: src/EventHandlers.ts
+    events:
+      - event: OpPoked(address indexed caller, address indexed opFeed, (bytes32,address,bytes) schnorrData, (uint128,uint32) pokeData)
+      - event: Poked(address indexed caller, uint128 val, uint32 age)
 
 # Enable unordered multichain mode for parallel processing
 unordered_multichain_mode: true
@@ -27,6 +32,9 @@ networks:
       - name: RedstoneProxy # Reference to global contract definition
         address:
           - 0xd72a6BA4a87DDB33e801b3f1c7750b2d0911fC6C # BTC/USD (Polygon)
+      - name: Chronicle_ETH_USD_3 # Chronicle oracle
+        address:
+          - 0x46ef0071b1E2fF6B42d36e5A177EA43Ae5917f4E
 
   # - id: 137 # Polygon Mainnet
   #   start_block: 73000000

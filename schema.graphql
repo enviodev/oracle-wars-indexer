@@ -15,3 +15,12 @@ type RedstoneProxy_ValueUpdate {
   updatedAt: BigInt! @index
   nativeTokenUsed: BigInt!
 }
+
+type Chronicle_ETH_USD_3_Poked {
+  id: ID!
+  caller: String! @index
+  val: BigInt!
+  age: Int!
+  updatedAt: BigInt! @index
+  nativeTokenUsed: BigInt!
+}
