@@ -69,7 +69,7 @@ RedstoneProxy.ValueUpdate.handler(async ({ event, context }) => {
     "0x4554480000000000000000000000000000000000000000000000000000000000"
   ) {
     // RedStone is batching multiple updates in single transaction
-    // thus updates costs varies from 40k - 65k gas per update, depending how much feeds were packed in single tx
+    // thus updates costs varies from 40k - 65k gas per feed, depending how much feeds were packed in single tx
     // the worst case is 65k for transaction with single feed - sample tx https://etherscan.io/tx/0x2e797d44ba682bdc26039d329dfa938bfb22ca2ed98d6edaaa8841682e5fad12
     const gasUsedPerSingleFeedUpdate = 65_000n;
     const nativeTokenUsed =
