@@ -1,12 +1,13 @@
-type AccessControlledOCR2Aggregator_AnswerUpdated {
-  id: ID!
-  current: BigInt!
-  roundId: BigInt!
-  updatedAt: BigInt! @index
-  nativeTokenUsed: BigInt!
-  feedAddress: String! @index
-  chainId: Int! @index
-}
+# type AccessControlledOCR2Aggregator_AnswerUpdated {
+#   id: ID!
+#   current: BigInt!
+#   roundId: BigInt!
+#   updatedAt: BigInt! @index
+#   nativeTokenUsed: BigInt!
+#   feedAddress: String! @index
+#   chainId: Int! @index
+#   deleteIndex: BigInt! @index
+# }
 
 type TransparentUpgradeableProxy_ValueUpdate {
   id: ID!
@@ -14,4 +15,11 @@ type TransparentUpgradeableProxy_ValueUpdate {
   dataFeedId: String!
   updatedAt: BigInt! @index
   nativeTokenUsed: BigInt!
+  deleteIndex: BigInt! @index
+}
+
+type TrackIndex {
+  id: ID!
+  valueUpdateIndex: BigInt! # assign this value to new valueUpdate entity
+  valueUpdateDeleteIndex: BigInt! # delete entity with this index
 }

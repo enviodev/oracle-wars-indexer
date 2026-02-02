@@ -1,0 +1,347 @@
+[
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "dataFeedId", "type": "bytes32" },
+      {
+        "internalType": "uint256",
+        "name": "lastDataTimestamp",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "lastBlockTimestamp",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "lastValue", "type": "uint256" }
+    ],
+    "name": "InvalidLastUpdateDetails",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "count", "type": "uint256" }
+    ],
+    "name": "InvalidMedianCount",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "message", "type": "string" }
+    ],
+    "name": "UnsupportedFunctionCall",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "updater", "type": "address" }
+    ],
+    "name": "UpdaterNotAuthorised",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "dataFeedId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "blockTimestamp",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "updaterTimestamp",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "updaterId",
+        "type": "uint256"
+      }
+    ],
+    "name": "FastValueUpdate",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "dataFeedId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "freshCount",
+        "type": "uint256"
+      }
+    ],
+    "name": "RoundNotCreatedDueToInsufficientFreshPrices",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "dataFeedId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "UpdateSkipDueToBlockTimestamp",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "dataFeedId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "UpdateSkipDueToDataTimestamp",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "dataFeedId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "UpdateSkipDueToInvalidValue",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "value",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "dataFeedId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "updatedAt",
+        "type": "uint256"
+      }
+    ],
+    "name": "ValueUpdate",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "dataFeedId", "type": "bytes32" }
+    ],
+    "name": "getBlockTimestampFromLatestUpdate",
+    "outputs": [
+      { "internalType": "uint256", "name": "blockTimestamp", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "dataFeedId", "type": "bytes32" }
+    ],
+    "name": "getDataTimestampFromLatestUpdate",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "lastDataTimestamp",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "dataFeedId", "type": "bytes32" }
+    ],
+    "name": "getLastUpdateDetails",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "lastDataTimestamp",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "lastBlockTimestamp",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "lastValue", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "dataFeedId", "type": "bytes32" }
+    ],
+    "name": "getLastUpdateDetailsUnsafe",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "lastDataTimestamp",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "lastBlockTimestamp",
+        "type": "uint256"
+      },
+      { "internalType": "uint256", "name": "lastValue", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32[]",
+        "name": "dataFeedIds",
+        "type": "bytes32[]"
+      }
+    ],
+    "name": "getLastUpdateDetailsUnsafeForMany",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "dataTimestamp",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "blockTimestamp",
+            "type": "uint256"
+          },
+          { "internalType": "uint256", "name": "value", "type": "uint256" }
+        ],
+        "internalType": "struct IMultiFeedAdapter.LastUpdateDetails[]",
+        "name": "detailsForFeeds",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "updaterId", "type": "uint256" },
+      { "internalType": "bytes32", "name": "dataFeedId", "type": "bytes32" }
+    ],
+    "name": "getUpdaterLastPriceData",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "uint64", "name": "price", "type": "uint64" },
+          {
+            "internalType": "uint64",
+            "name": "priceTimestamp",
+            "type": "uint64"
+          },
+          {
+            "internalType": "uint64",
+            "name": "blockTimestamp",
+            "type": "uint64"
+          }
+        ],
+        "internalType": "struct IFastMultiFeedAdapter.PriceData",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "dataFeedId", "type": "bytes32" }
+    ],
+    "name": "getValueForDataFeed",
+    "outputs": [
+      { "internalType": "uint256", "name": "dataFeedValue", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32[]",
+        "name": "requestedDataFeedIds",
+        "type": "bytes32[]"
+      }
+    ],
+    "name": "getValuesForDataFeeds",
+    "outputs": [
+      { "internalType": "uint256[]", "name": "values", "type": "uint256[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint64", "name": "priceTimestamp", "type": "uint64" },
+      {
+        "components": [
+          {
+            "internalType": "bytes32",
+            "name": "dataFeedId",
+            "type": "bytes32"
+          },
+          { "internalType": "uint64", "name": "price", "type": "uint64" }
+        ],
+        "internalType": "struct IFastMultiFeedAdapter.PriceUpdateInput[]",
+        "name": "inputs",
+        "type": "tuple[]"
+      }
+    ],
+    "name": "updateDataFeedsValues",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32[]", "name": "", "type": "bytes32[]" }
+    ],
+    "name": "updateDataFeedsValuesPartial",
+    "outputs": [],
+    "stateMutability": "pure",
+    "type": "function"
+  }
+]
