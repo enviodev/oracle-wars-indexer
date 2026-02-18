@@ -16,10 +16,13 @@ type TransparentUpgradeableProxy_ValueUpdate {
   updatedAt: BigInt! @index
   nativeTokenUsed: BigInt!
   deleteIndex: BigInt! @index
+  chainId: Int! @index
 }
 
 type TrackIndex {
+  # id will be ${dataFeedId}-${chainId}
   id: ID!
   valueUpdateIndex: BigInt! # assign this value to new valueUpdate entity
   valueUpdateDeleteIndex: BigInt! # delete entity with this index
+  chainId: Int! @index
 }
