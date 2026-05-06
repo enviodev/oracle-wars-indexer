@@ -29,6 +29,7 @@ benchmarks/
 artifacts
 cache
 generated
+.envio
 logs
 *.bs.js
 *.bs.mjs

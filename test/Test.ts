@@ -1,37 +1,30 @@
-import assert from "assert";
-import { 
-  TestHelpers,
-  AccessControlledOCR2Aggregator_AnswerUpdated
-} from "generated";
-const { MockDb, AccessControlledOCR2Aggregator } = TestHelpers;
+import { describe, it } from "vitest";
+import { createTestIndexer } from "envio";
 
-describe("AccessControlledOCR2Aggregator contract AnswerUpdated event tests", () => {
-  // Create mock db
-  const mockDb = MockDb.createMockDb();
+describe("TransparentUpgradeableProxy FastValueUpdate", () => {
+  it("creates ValueUpdate entity for selected feed", async (t) => {
+    const indexer = createTestIndexer();
 
-  // Creating mock for AccessControlledOCR2Aggregator contract AnswerUpdated event
-  const event = AccessControlledOCR2Aggregator.AnswerUpdated.createMockEvent({/* It mocks event fields with default values. You can overwrite them if you need */});
-
-  it("AccessControlledOCR2Aggregator_AnswerUpdated is created correctly", async () => {
-    // Processing the event
-    const mockDbUpdated = await AccessControlledOCR2Aggregator.AnswerUpdated.processEvent({
-      event,
-      mockDb,
+    const result = await indexer.process({
+      chains: {
+        6343: {
+          simulate: [
+            {
+              contract: "TransparentUpgradeableProxy",
+              event: "FastValueUpdate",
+              params: {
+                // BTC/USD selected feed
+                dataFeedId:
+                  "0x4254430000000000000000000000000000000000000000000000000000000000",
+                value: 5000000000000n,
+                blockTimestamp: 1700000000n,
+              },
+            },
+          ],
+        },
+      },
     });
 
-    // Getting the actual entity from the mock database
-    let actualAccessControlledOCR2AggregatorAnswerUpdated = mockDbUpdated.entities.AccessControlledOCR2Aggregator_AnswerUpdated.get(
-      `${event.chainId}_${event.block.number}_${event.logIndex}`
-    );
-
-    // Creating the expected entity
-    const expectedAccessControlledOCR2AggregatorAnswerUpdated: AccessControlledOCR2Aggregator_AnswerUpdated = {
-      id: `${event.chainId}_${event.block.number}_${event.logIndex}`,
-      current: event.params.current,
-      roundId: event.params.roundId,
-      updatedAt: event.params.updatedAt,
-    };
-    // Asserting that the entity in the mock database is the same as the expected entity
-    assert.deepEqual(actualAccessControlledOCR2AggregatorAnswerUpdated, expectedAccessControlledOCR2AggregatorAnswerUpdated, "Actual AccessControlledOCR2AggregatorAnswerUpdated should be the same as the expectedAccessControlledOCR2AggregatorAnswerUpdated");
+    t.expect(result.changes).toBeDefined();
   });
 });

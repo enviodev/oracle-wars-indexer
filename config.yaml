@@ -2,9 +2,6 @@
 name: envio-indexer
 description: Chainlink Feeds Indexer
 
-# Enable unordered multichain mode for parallel processing
-unordered_multichain_mode: true
-
 contracts:
   - name: TransparentUpgradeableProxy
     abi_file_path: ./abi/redstone.json
@@ -12,8 +9,11 @@ contracts:
     events:
       - event: FastValueUpdate
 
-# Network-specific configurations
-networks:
+storage: 
+  postgres: true
+
+# Chain-specific configurations
+chains:
   # - id: 1 # Ethereum Mainnet
   #   start_block: 21900000
   #   contracts:
@@ -27,7 +27,7 @@ networks:
   - id: 6343
     hypersync_config:
       url: https://megaeth-testnet2.hypersync.xyz
-    start_block: 11417666
+    start_block: 18253896
     contracts:
       - name: TransparentUpgradeableProxy
         address:
@@ -35,7 +35,7 @@ networks:
   - id: 4326
     hypersync_config:
       url: https://megaeth.hypersync.xyz
-    start_block: 8424469
+    start_block: 15167287
     contracts:
       - name: TransparentUpgradeableProxy
         address:
@@ -47,5 +47,3 @@ field_selection:
   transaction_fields:
     - "gasUsed"
     - "effectiveGasPrice"
-
-preload_handlers: true

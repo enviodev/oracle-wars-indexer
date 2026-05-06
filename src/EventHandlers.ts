@@ -1,14 +1,13 @@
 /*
  * Please refer to https://docs.envio.dev for a thorough guide on all Envio indexer features
  */
-import {
-  TransparentUpgradeableProxy,
-  TransparentUpgradeableProxy_ValueUpdate,
-} from "generated";
+import { indexer } from "envio";
+import type { Entity } from "envio";
 
 const VALUE_UPDATE_DELETE_OFFSET = 5000n;
 
-TransparentUpgradeableProxy.FastValueUpdate.handler(
+indexer.onEvent(
+  { contract: "TransparentUpgradeableProxy", event: "FastValueUpdate" },
   async ({ event, context }) => {
     const selectedFeeds = [
       // MegaETH Testnet Feeds
@@ -27,11 +26,13 @@ TransparentUpgradeableProxy.FastValueUpdate.handler(
       return;
     }
 
+    const chainId = context.chain.id;
+
     const trackIndex = await context.TrackIndex.getOrCreate({
-      id: `${event.params.dataFeedId}-${event.chainId}`,
+      id: `${event.params.dataFeedId}-${chainId}`,
       valueUpdateIndex: 0n,
       valueUpdateDeleteIndex: 0n,
-      chainId: event.chainId,
+      chainId,
     });
 
     // increment global index
@@ -40,14 +41,14 @@ TransparentUpgradeableProxy.FastValueUpdate.handler(
     const nativeTokenUsed =
       event.transaction.gasUsed * event.transaction.effectiveGasPrice;
 
-    const entity: TransparentUpgradeableProxy_ValueUpdate = {
-      id: `${event.chainId}_${event.block.number}_${event.logIndex}`,
+    const entity: Entity<"TransparentUpgradeableProxy_ValueUpdate"> = {
+      id: `${chainId}_${event.block.number}_${event.logIndex}`,
       value: event.params.value,
       dataFeedId: event.params.dataFeedId,
       updatedAt: event.params.blockTimestamp,
       nativeTokenUsed: nativeTokenUsed,
       deleteIndex: currentIndex,
-      chainId: event.chainId,
+      chainId,
     };
 
     context.TransparentUpgradeableProxy_ValueUpdate.set(entity);
@@ -56,13 +57,16 @@ TransparentUpgradeableProxy.FastValueUpdate.handler(
     if (currentIndex >= VALUE_UPDATE_DELETE_OFFSET) {
       const deleteIndex = currentIndex - VALUE_UPDATE_DELETE_OFFSET;
       const toDelete =
-        await context.TransparentUpgradeableProxy_ValueUpdate.getWhere.deleteIndex.eq(
-          deleteIndex,
-        );
+        await context.TransparentUpgradeableProxy_ValueUpdate.getWhere({
+          deleteIndex: { _eq: deleteIndex },
+        });
       if (toDelete.length > 0) {
         for (const entity of toDelete) {
           // delete data feed specific entries only
-          if (entity.dataFeedId === event.params.dataFeedId && entity.chainId === event.chainId) {
+          if (
+            entity.dataFeedId === event.params.dataFeedId &&
+            entity.chainId === chainId
+          ) {
             context.TransparentUpgradeableProxy_ValueUpdate.deleteUnsafe(
               entity.id,
             );
@@ -76,10 +80,10 @@ TransparentUpgradeableProxy.FastValueUpdate.handler(
     }
 
     const newTrackIndex = await context.TrackIndex.getOrCreate({
-      id: `${event.params.dataFeedId}-${event.chainId}`,
+      id: `${event.params.dataFeedId}-${chainId}`,
       valueUpdateIndex: 0n,
       valueUpdateDeleteIndex: 0n,
-      chainId: event.chainId,
+      chainId,
     });
 
     // persist index increment
