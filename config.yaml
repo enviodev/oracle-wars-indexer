@@ -25,16 +25,12 @@ chains:
   #         - 0xd72a6BA4a87DDB33e801b3f1c7750b2d0911fC6C
 
   - id: 6343
-    hypersync_config:
-      url: https://megaeth-testnet2.hypersync.xyz
     start_block: 18253896
     contracts:
       - name: TransparentUpgradeableProxy
         address:
           - 0x9f0B0AE7a3b6671129633121149b7059d004EDa4
   - id: 4326
-    hypersync_config:
-      url: https://megaeth.hypersync.xyz
     start_block: 15167287
     contracts:
       - name: TransparentUpgradeableProxy
