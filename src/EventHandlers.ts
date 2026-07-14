@@ -1,13 +1,8 @@
-import {
-  ChainlinkProxy,
-  ChainlinkProxy_AnswerUpdated,
-  RedstoneProxy,
-  RedstoneProxy_ValueUpdate,
-  Chronicle_ETH_USD_3,
-  Chronicle_ETH_USD_3_Poked,
-} from "generated";
+import { indexer, ChainlinkProxy, ChainlinkProxy_AnswerUpdated, RedstoneProxy, RedstoneProxy_ValueUpdate, Chronicle_ETH_USD_3, Chronicle_ETH_USD_3_Poked } from "envio";
 
-ChainlinkProxy.AnswerUpdated.handler(async ({ event, context }) => {
+indexer.onEvent(
+  { contract: "ChainlinkProxy", event: "AnswerUpdated" },
+  async ({ event, context }) => {
   // Calculate native token cost (gasUsed × effectiveGasPrice)
   const nativeTokenUsed =
     event.transaction.gasUsed * event.transaction.effectiveGasPrice;
@@ -23,9 +18,12 @@ ChainlinkProxy.AnswerUpdated.handler(async ({ event, context }) => {
   };
 
   context.ChainlinkProxy_AnswerUpdated.set(entity);
-});
+}
+);
 
-Chronicle_ETH_USD_3.Poked.handler(async ({ event, context }) => {
+indexer.onEvent(
+  { contract: "Chronicle_ETH_USD_3", event: "Poked" },
+  async ({ event, context }) => {
   const nativeTokenUsed =
     event.transaction.gasUsed * event.transaction.effectiveGasPrice;
 
@@ -41,9 +39,12 @@ Chronicle_ETH_USD_3.Poked.handler(async ({ event, context }) => {
   };
 
   context.Chronicle_ETH_USD_3_Poked.set(entity);
-});
+}
+);
 
-Chronicle_ETH_USD_3.OpPoked.handler(async ({ event, context }) => {
+indexer.onEvent(
+  { contract: "Chronicle_ETH_USD_3", event: "OpPoked" },
+  async ({ event, context }) => {
   const nativeTokenUsed =
     event.transaction.gasUsed * event.transaction.effectiveGasPrice;
 
@@ -60,9 +61,12 @@ Chronicle_ETH_USD_3.OpPoked.handler(async ({ event, context }) => {
   };
 
   context.Chronicle_ETH_USD_3_Poked.set(entity);
-});
+}
+);
 
-RedstoneProxy.ValueUpdate.handler(async ({ event, context }) => {
+indexer.onEvent(
+  { contract: "RedstoneProxy", event: "ValueUpdate" },
+  async ({ event, context }) => {
   // Only process events with the specified dataFeedId
   if (
     event.params.dataFeedId ===
@@ -85,4 +89,5 @@ RedstoneProxy.ValueUpdate.handler(async ({ event, context }) => {
 
     context.RedstoneProxy_ValueUpdate.set(entity);
   }
-});
+}
+);

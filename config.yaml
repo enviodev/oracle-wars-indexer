@@ -19,10 +19,9 @@ contracts:
       - event: Poked(address indexed caller, uint128 val, uint32 age)
 
 # Enable unordered multichain mode for parallel processing
-unordered_multichain_mode: true
 
 # Network-specific configurations
-networks:
+chains:
   - id: 1 # Ethereum Mainnet
     start_block: 23100000
     contracts:

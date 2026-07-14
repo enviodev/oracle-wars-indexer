@@ -1,5 +1,5 @@
 import assert from "assert";
-import { TestHelpers, ChainlinkProxy_AnswerUpdated } from "generated";
+import { TestHelpers, ChainlinkProxy_AnswerUpdated } from "envio";
 const { MockDb, ChainlinkProxy } = TestHelpers;
 
 describe("ChainlinkProxy contract AnswerUpdated event tests", () => {
