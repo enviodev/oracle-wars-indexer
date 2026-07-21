@@ -11,7 +11,8 @@
     "watch": "tsc --watch",
     "codegen": "envio codegen",
     "dev": "envio dev",
-    "test": "vitest run"
+    "test": "vitest run --passWithNoTests",
+    "start": "envio start"
   },
   "devDependencies": {
     "@types/node": "24.12.2",
@@ -19,6 +20,6 @@
     "vitest": "4.1.0"
   },
   "dependencies": {
-    "envio": "3.0.0-rc.0"
+    "envio": "3.2.1"
   }
 }
