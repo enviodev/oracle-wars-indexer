@@ -5,7 +5,6 @@ type ChainlinkProxy_AnswerUpdated {
   updatedAt: BigInt! @index
   nativeTokenUsed: BigInt!
   feedAddress: String! @index
-  chainId: Int! @index
 }
 
 type RedstoneProxy_ValueUpdate {

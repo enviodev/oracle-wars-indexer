@@ -14,7 +14,6 @@ indexer.onEvent(
     updatedAt: event.params.updatedAt,
     nativeTokenUsed: nativeTokenUsed,
     feedAddress: event.srcAddress,
-    chainId: event.chainId,
   };
 
   context.ChainlinkProxy_AnswerUpdated.set(entity);
