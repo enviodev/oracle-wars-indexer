@@ -1,4 +1,5 @@
-import { indexer, ChainlinkProxy, ChainlinkProxy_AnswerUpdated, RedstoneProxy, RedstoneProxy_ValueUpdate, Chronicle_ETH_USD_3, Chronicle_ETH_USD_3_Poked } from "envio";
+import { indexer } from "envio";
+import type { ChainlinkProxy_AnswerUpdated, RedstoneProxy_ValueUpdate, Chronicle_ETH_USD_3_Poked } from "envio";
 
 indexer.onEvent(
   { contract: "ChainlinkProxy", event: "AnswerUpdated" },
@@ -47,7 +48,8 @@ indexer.onEvent(
   const nativeTokenUsed =
     event.transaction.gasUsed * event.transaction.effectiveGasPrice;
 
-  const [val, age] = event.params.pokeData;
+  const val = event.params.pokeData[0];
+  const age = event.params.pokeData[1];
   const scaledVal = val / 10000000000n; // 18 -> 8 decimals
 
   const entity: Chronicle_ETH_USD_3_Poked = {
